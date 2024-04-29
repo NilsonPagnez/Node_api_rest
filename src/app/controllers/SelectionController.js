@@ -1,59 +1,30 @@
-class SelectionController{
-    index(req, res) {
-        const sql = "SELECT * FROM selections;"
-        conection.query(sql, (error, result)=>{
-            if (error){
-                console.log(error)
-            }else{
-                res.status(200).json(result)
-            }
-        })
+import SelectionRepository from "../repositories/SelectionRepository.js"
+
+class SelectionController {
+    async index(req, res) {
+        const row = await SelectionRepository.findAll()
+        res.json(row)
     }
-    show(req, res) {
+    async show(req, res) {
         const id = req.params.id
-        const sql = `SELECT * FROM selections WHERE id =?;`
-        conection.query(sql, id, (error, result)=>{
-            const line = result[0]
-            if (error){
-                console.log(error)
-            }else{
-                res.status(200).json(line)
-            }
-        })
+        const row = await SelectionRepository.findByID(id)
+        res.json(row)
     }
-    store(req, res) {
+    async store(req, res) {
         const data = req.body
-        const sql = `INSERT INTO selections SET ?;`
-        conection.query(sql, data, (error, result)=>{
-            if (error){
-                console.log(error)
-            }else{
-                res.status(201).json(result)
-            }
-        })
+        const row = await SelectionRepository.create(data)
+        res.json(row)
     }
-    delete(req, res) {
+    async delete(req, res) {
         const id = req.params.id
-        const sql = `DELETE FROM selections WHERE id =?;`
-        conection.query(sql, id, (error, result)=>{
-            if (error){
-                console.log(error)
-            }else{
-                res.status(200).json(result)
-            }
-        })
+        const row = await SelectionRepository.delete(id)
+        res.json(row)
     }
-    update(req, res){
+    async update(req, res) {
         const data = req.body
         const id = req.params.id
-        const sql = `UPDATE selections SET ? WHERE id =?;`
-        conection.query(sql, [data, id], (error, result)=>{
-            if (error){
-                console.log(error)
-            }else{
-                res.status(201).json(result)
-            }
-        })
+        const row = await SelectionRepository.update(data, id)
+        res.json(row)
     }
 }
 
