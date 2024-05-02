@@ -1,5 +1,5 @@
 import express from 'express'
-import SelectionController from './app/controllers/SelectionController.js'
+import routes from './routes.js'
 
 const app = express()
 
@@ -7,10 +7,6 @@ const app = express()
 app.use(express.json())
 
 //Routes
-app.get('/selections', SelectionController.index)
-app.get('/selections/:id', SelectionController.show)
-app.post('/selections', SelectionController.store)
-app.delete('/selections/:id', SelectionController.delete)
-app.put('/selections/:id', SelectionController.update)
+app.use(routes)
 
 export default app
